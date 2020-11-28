@@ -1,0 +1,32 @@
+version: '3.0'
+services:
+  db:
+    image: mysql:5.7.30
+    container_name: petstore-mysql_5_7
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: PetStore001
+      MYSQL_DATABASE: dbpet
+      MYSQL_USER: pet_user
+      MYSQL_PASSWORD: pet_password
+    volumes:
+        - ${PWD}/www/db-scripts:/docker-entrypoint-initdb.d/:rw
+    networks:
+        - petnetwork
+  web:
+    build:
+         context: .
+         dockerfile: ${PWD}/Dockerfile-php
+    container_name: petstore-php_7_3
+    ports:
+      - "80:80"
+    volumes:
+      - ${PWD}/www:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - petnetwork
+networks:
+    petnetwork:
