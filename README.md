@@ -1,8 +1,7 @@
 # php7-pet-system
 
-please execute:
 
-``` js
+``` shell
 $ docker-compose up
 ```
 
